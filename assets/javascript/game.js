@@ -13,6 +13,8 @@ word = [];
 
 var wordArray = [StarWarsWords.word1, StarWarsWords.word2];
 
+userInput = "";
+
 function createWord(wordArray) {
 	word = wordArray[Math.floor(Math.random()*wordArray.length)];
 	console.log(word);
@@ -75,13 +77,17 @@ function checkLetterInWord(userInput, word, placeholder) {
 }
 */
 
-function trackLetterGuesses(guess) {
-	var guess = event.key
-	console.log('event.key is ' + key);
-	lettersGuessed = lettersGuessed.push(key);
-	console.log(lettersGuessed);
-	lettersGuessed = lettersGuessed.join(", ");
-	document.getElementById('letters-guessed').innerHTML = lettersGuessed;
+function trackLetterGuesses(userInput) {
+	console.log('Guess is ' + userInput);
+	for (i = 0; i < lettersGuessed.length; i++) {
+		if (userInput == lettersGuessed[i]) {
+			return;
+		}
+	}
+	lettersGuessed.push(userInput);
+	console.log("LettersGuessed array item: " + lettersGuessed[0]);
+	var lettersGuessedString = lettersGuessed.join(", ");
+	document.getElementById('letters-guessed').innerHTML = lettersGuessedString;
 }
 
 function trackWins(wins) {
@@ -115,21 +121,25 @@ document.onkeyup = function(event) {
 
 	if (typeof event != 'undefined') {
 		keyPress = event.keyCode;
+		userInput = String.fromCharCode(keyPress).toUpperCase();
+		console.log(userInput + " should match the key entered");
+		trackLetterGuesses(userInput);
 	}
 	else if (e) {
 		keyPress = e.which;
 	}
 
-	lettersGuessed.push(String.fromCharCode(keyPress));
-	console.log("LettersGuessed is working!" + lettersGuessed);
-	document.getElementById('letters-guessed').innerHTML = lettersGuessed;
+	//lettersGuessed.push(String.fromCharCode(keyPress));
+	//console.log("LettersGuessed is working!" + lettersGuessed);
+	//document.getElementById('letters-guessed').innerHTML = lettersGuessed;
+
+	//trackLetterGuesses(userInput);
+	//checkLetterInWord(userInput, word, placeholder);
 
 	guessesLeft--;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
 	console.log('Guesses left' + guessesLeft);
-	var userInput = String.fromCharCode(event.keyCode).toUpperCase();
-	console.log(userInput + " should match the key entered");
-	//checkLetterInWord(userInput, word, placeholder);
+
 	for (var i = 0; i < word.length; i++) {
 	  console.log('Word is ' + word);
 	  if (userInput == word[i]) {
@@ -141,14 +151,14 @@ document.onkeyup = function(event) {
 	  	correctGuessCount++;
 	  	console.log(correctGuessCount);
 	  	if (correctGuessCount == word.length) {
-	  			console.log("Woot");
-	  			trackWins(wins);
-	  			wins++;
-	  			document.getElementById('win-count').innerHTML = wins;
-	  			correctGuessCount = 0;
-	  			createWord(wordArray);
-	  			userInput = "";
-	  			restartGame();
+	  		console.log("Woot");
+	  		trackWins(wins);
+	  		wins++;
+	  		document.getElementById('win-count').innerHTML = wins;
+	  		correctGuessCount = 0;
+	  		createWord(wordArray);
+	  		userInput = "";
+	  		restartGame();
 	  	}
 	  }
 	}
