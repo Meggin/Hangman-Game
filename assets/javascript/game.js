@@ -5,10 +5,30 @@ var StarWarsWords = {
 
 var wins = 0;
 
+word = [];
+
+placeholderArray = [];
+
 var wordArray = [StarWarsWords.word1, StarWarsWords.word2];
+
 
 var word = wordArray[Math.floor(Math.random()*wordArray.length)];
 console.log(word);
+
+//window.onload = function() {
+	//createWord(wordArray);
+	//var placeholder = createWordPlaceholder(word);
+    //console.log(placeholder);
+  
+    //Displays word placeholder in html.
+    //document.getElementById('word-placeholder').textContent = placeholder;
+    //var space = " ";
+    //var placeholderArray = placeholder.split(space);
+    //return placeholderArray;
+//}
+
+//var word = wordArray[Math.floor(Math.random()*wordArray.length)];
+//console.log(word);
 
 //Creates a placeholder for word.
 function createWordPlaceholder(word) {	
@@ -59,7 +79,10 @@ function trackWins(wins) {
 function restartGame() {
 	guessesLeft = 13;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
-	createWordPlaceholder(word, wordArray);
+	//createWord(wordArray);
+	//createWordPlaceholder(word);
+	//console.log("Placeholder: " + newPlaceholder);
+	//document.getElementById('word-placeholder').innerHTML = newPlaceholder;
 }
 
 var correctGuessCount = 0;
@@ -81,12 +104,12 @@ document.onkeyup = function(event) {
 	  	console.log(userInput + " is in word at " + i);
 	  	correctGuessCount++;
 	  	console.log(correctGuessCount);
-	  	console.log("Word length = " + word.length);
 	  	if (correctGuessCount == word.length) {
 	  		console.log("Woot");
 	  		trackWins(wins);
 	  		restartGame();
 	  	}
+	  	console.log("Word length = " + word.length);
 	  	placeholderArray[i] = userInput;
 	  	console.log(userInput);
 	  	placeholder = placeholderArray.join(" ");
