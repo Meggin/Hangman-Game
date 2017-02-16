@@ -21,6 +21,8 @@ function createWordPlaceholder(word) {
 
 var placeholder = createWordPlaceholder(word);
 console.log(placeholder);
+var space = " ";
+var placeholderArray = placeholder.split(space);
 
 //Displays word placeholder in html.
 document.getElementById('word-placeholder').textContent = placeholder;
@@ -48,7 +50,9 @@ document.onkeyup = function(event) {
 	  //Check to see if letter exists in word.
 	  if (userInput == word[i]) {
 	  	console.log(userInput + " is in word at " + i);
-	  	placeholder = placeholder.substring(0, i) + userInput + placeholder.substring(i + 1, placeholder.length - 1);
+	  	placeholderArray[i] = userInput;
+	  	console.log(userInput);
+	  	placeholder = placeholderArray.join(" ");
 	  	document.getElementById('word-placeholder').innerHTML = placeholder;
 	  }
 	}
