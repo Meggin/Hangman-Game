@@ -9,10 +9,17 @@ placeholderArray = [];
 
 lettersGuessed = [];
 
+word = [];
+
 var wordArray = [StarWarsWords.word1, StarWarsWords.word2];
 
-var word = wordArray[Math.floor(Math.random()*wordArray.length)];
-console.log(word);
+function createWord(wordArray) {
+	word = wordArray[Math.floor(Math.random()*wordArray.length)];
+	console.log(word);
+	return word;
+}
+
+createWord(wordArray);
 
 //window.onload = function() {
 	//createWord(wordArray);
@@ -78,10 +85,13 @@ function trackWins(wins) {
 function restartGame() {
 	guessesLeft = 13;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
-	lettersGuessed = [];l
-	//createWord(wordArray);
-	//createWordPlaceholder(word);
-	//console.log("Placeholder: " + newPlaceholder);
+	lettersGuessed = [];
+	createWord(wordArray);
+	newPlaceholder = createWordPlaceholder(word);
+	console.log("Placeholder: " + newPlaceholder);
+
+	//Displays word placeholder in html.
+	document.getElementById('word-placeholder').textContent = placeholder;
 	//document.getElementById('word-placeholder').innerHTML = newPlaceholder;
 }
 
