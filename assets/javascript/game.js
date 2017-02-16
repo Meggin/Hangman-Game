@@ -5,12 +5,11 @@ var StarWarsWords = {
 
 var wins = 0;
 
-word = [];
-
 placeholderArray = [];
 
-var wordArray = [StarWarsWords.word1, StarWarsWords.word2];
+lettersGuessed = [];
 
+var wordArray = [StarWarsWords.word1, StarWarsWords.word2];
 
 var word = wordArray[Math.floor(Math.random()*wordArray.length)];
 console.log(word);
@@ -62,8 +61,8 @@ function checkLetterInWord(userInput, word, placeholder) {
 */
 
 function trackLetterGuesses(guess) {
+	var guess = event.key
 	console.log('event.key is ' + key);
-	var lettersGuessed = [];
 	lettersGuessed = lettersGuessed.push(key);
 	console.log(lettersGuessed);
 	lettersGuessed = lettersGuessed.join(", ");
@@ -79,6 +78,7 @@ function trackWins(wins) {
 function restartGame() {
 	guessesLeft = 13;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
+	lettersGuessed = [];l
 	//createWord(wordArray);
 	//createWordPlaceholder(word);
 	//console.log("Placeholder: " + newPlaceholder);
@@ -86,12 +86,23 @@ function restartGame() {
 }
 
 var correctGuessCount = 0;
-var lettersGuessed = "";
 var guessesLeft = 13;
 //Function fires when letter selected.
 document.onkeyup = function(event) {
 	console.log('This is the key entered', event.key);
-	var guess = event.key;
+	var keyPress;
+
+	if (typeof event != 'undefined') {
+		keyPress = event.keyCode;
+	}
+	else if (e) {
+		keyPress = e.which;
+	}
+
+	lettersGuessed.push(String.fromCharCode(keyPress));
+	console.log("LettersGuessed is working!" + lettersGuessed);
+	document.getElementById('letters-guessed').innerHTML = lettersGuessed;
+
 	guessesLeft--;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
 	console.log('Guesses left' + guessesLeft);
@@ -116,6 +127,7 @@ document.onkeyup = function(event) {
 	  	document.getElementById('word-placeholder').innerHTML = placeholder;
 	  }
 	}
+	return false;
 };
 
 
