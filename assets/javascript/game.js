@@ -8,11 +8,17 @@ var StarWarsWords = {
 
 var wins = 0;
 
-placeholderArray = [];
+var placeholderArray = [];
 
-lettersGuessed = [];
+var prevPlaceholderArray = [];
 
-word = [];
+var wordPlaceholder = [];
+
+var lettersGuessed = [];
+
+var word = [];
+
+var wordPlaceholderString = "";
 
 var wordArray = [StarWarsWords.word1, StarWarsWords.word2, StarWarsWords.word3, StarWarsWords.word4, StarWarsWords.word5];
 
@@ -21,28 +27,11 @@ userInput = "";
 function createWord(wordArray) {
 	word = wordArray[Math.floor(Math.random()*wordArray.length)];
 	console.log(word);
-	var placeholder = createWordPlaceholder(word);
-	console.log("Placeholder = " + placeholder);
-	document.getElementById('word-placeholder').textContent = placeholder;
+	createWordPlaceholder(word);
 	return word;
-}
+};
 
 createWord(wordArray);
-
-//window.onload = function() {
-	//createWord(wordArray);
-	//var placeholder = createWordPlaceholder(word);
-    //console.log(placeholder);
-  
-    //Displays word placeholder in html.
-    //document.getElementById('word-placeholder').textContent = placeholder;
-    //var space = " ";
-    //var placeholderArray = placeholder.split(space);
-    //return placeholderArray;
-//}
-
-//var word = wordArray[Math.floor(Math.random()*wordArray.length)];
-//console.log(word);
 
 //Creates a placeholder for word.
 function createWordPlaceholder(word) {	
@@ -50,37 +39,20 @@ function createWordPlaceholder(word) {
 	for (i = 0; i < word.length; i++) {
 		wordPlaceholder.push("_");
 	}
-	wordPlaceholder = wordPlaceholder.join(" ");
+	wordPlaceholderString = wordPlaceholder.join(" ");
+	document.getElementById('word-placeholder').textContent = wordPlaceholderString;
 	return wordPlaceholder;
 };
 
-function createPlaceholder(placeholder) {
-	var space = " ";
-	var placeholder = placeholder.split(space);
-}
-
-//var placeholder = createWordPlaceholder(word);
-//console.log(placeholder);
-//var space = " ";
-//var placeholderArray = placeholder.split(space);
-
-//Displays word placeholder in html.
-//document.getElementById('word-placeholder').textContent = placeholder;
-
-/*
-function checkLetterInWord(userInput, word, placeholder) {
-	for (var i = 0; i < word.length; i++) {
-	  //Check to see if letter exists in word.
-	  if (userInput == word[i]) {
-	  	console.log(userInput + " is in word at " + i);
-	  	placeholder = placeholder.substring(0, i) + userInput + placeholder.substring(i+1);
-	  	document.getElementById('word-placeholder').textContent = placeholder;
-	  }
-	}
-}
-*/
-
 function trackLetterGuesses(userInput) {
+	guessesLeft--;
+	if (guessesLeft == 0) {
+		correctGuessCount = 0;
+		createWord(wordArray);
+		userInput = "";
+		prevPlaceholderArray = [];
+		restartGame();
+	}
 	console.log('Guess is ' + userInput);
 	for (i = 0; i < lettersGuessed.length; i++) {
 		if (userInput == lettersGuessed[i]) {
@@ -91,18 +63,18 @@ function trackLetterGuesses(userInput) {
 	console.log("LettersGuessed array item: " + lettersGuessed[0]);
 	var lettersGuessedString = lettersGuessed.join(", ");
 	document.getElementById('letters-guessed').innerHTML = lettersGuessedString;
-	guessesLeft--;
 	document.getElementById('guess-count').innerHTML = guessesLeft;
 	console.log('Guesses left' + guessesLeft);
-}
+	return lettersGuessedString;
+};
 
 function trackWins(wins) {
 	wins++;
 	console.log("Value of wins: " + wins);
 	return wins;
-}
+};
 
-function restartGame() {
+function restartGame(wordPlaceholder) {
 	//createWord(wordArray);
 	placeholderArray = [];
 	guessesLeft = 13;
@@ -110,12 +82,43 @@ function restartGame() {
 	document.getElementById('guess-count').innerHTML = guessesLeft;
 	lettersGuessed = [];
 	document.getElementById('letters-guessed').innerHTML = lettersGuessed;
-	//newPlaceholder = createWordPlaceholder(word);
-	//console.log("Placeholder: " + newPlaceholder);
+}
 
-	//Displays word placeholder in html.
-	//document.getElementById('word-placeholder').textContent = placeholder;
-	//document.getElementById('word-placeholder').innerHTML = newPlaceholder;
+function buildWord(userInput) {
+	if (prevPlaceholderArray.length == 0) {
+		placeholderArray = createWordPlaceholder(word);
+	} else {
+		placeholderArray = prevPlaceholderArray;
+	}
+
+	for (var i = 0; i < word.length; i++) {
+	  console.log('Word is ' + word);
+	  if (userInput == word[i]) {
+	  	console.log(userInput + " is in word at " + i);
+	  	//
+	  	placeholderArray[i] = userInput;
+	  }
+	}
+
+	prevPlaceholderArray = placeholderArray;
+
+	placeholder = placeholderArray.join(" ");
+	console.log("What's going on with placeholder? " + placeholder);
+	document.getElementById('word-placeholder').innerHTML = placeholder;
+
+	console.log("Placeholder Array length is " + placeholderArray.length);
+	console.log("Placeholder split is " + placeholder.split(","));
+	console.log("Word join is " + word.join(" "));
+	if (placeholder.split(',') == word.join(" ")) {
+		console.log("Woot");
+		wins++
+		document.getElementById('win-count').innerHTML = wins;
+		correctGuessCount = 0;
+		createWord(wordArray);
+		userInput = "";
+		prevPlaceholderArray = [];
+		restartGame();
+	}
 }
 
 var correctGuessCount = 0;
@@ -130,45 +133,10 @@ document.onkeyup = function(event) {
 		userInput = String.fromCharCode(keyPress).toUpperCase();
 		console.log(userInput + " should match the key entered");
 		trackLetterGuesses(userInput);
+		buildWord(userInput);
 	}
 	else if (e) {
 		keyPress = e.which;
-	}
-
-	//lettersGuessed.push(String.fromCharCode(keyPress));
-	//console.log("LettersGuessed is working!" + lettersGuessed);
-	//document.getElementById('letters-guessed').innerHTML = lettersGuessed;
-
-	//trackLetterGuesses(userInput);
-	//checkLetterInWord(userInput, word, placeholder);
-
-	for (var i = 0; i < word.length; i++) {
-	  console.log('Word is ' + word);
-	  if (userInput == word[i]) {
-	  	console.log(userInput + " is in word at " + i);
-	  	//
-	  	placeholderArray[i] = userInput;
-	  	placeholder = placeholderArray.join(" ");
-	  	console.log("What's going on with placeholder? " + placeholder);
-	  	console.log("userInput = " + userInput);
-	  	document.getElementById('word-placeholder').innerHTML = placeholder;
-
-	  	
-	  	//correctGuessCount++;
-	  	//console.log(correctGuessCount);
-	  	console.log("Placeholder Array length is " + placeholderArray.length);
-	  	console.log("Placeholder split is " + placeholder.split(","));
-	  	console.log("Word join is " + word.join(" "));
-	  	if (placeholder.split(',') == word.join(" ")) {
-	  		console.log("Woot");
-	  		wins++
-	  		document.getElementById('win-count').innerHTML = wins;
-	  		correctGuessCount = 0;
-	  		createWord(wordArray);
-	  		userInput = "";
-	  		restartGame();
-	  	}
-	  }
 	}
 	return false;
 };
