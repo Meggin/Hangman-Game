@@ -42,6 +42,9 @@ document.onkeyup = function(event) {
 		// Track user guesses over time.
 		trackLetterGuesses(userInput);
 
+		// Pause audio.
+		pauseAudio();
+
 		// Build hangman word based on new user input.
 		buildWord(userInput);
 	}
@@ -162,10 +165,16 @@ function buildWord(userInput) {
 	}
 };
 
-// Play some music when you win.
-function playAudio() {
-	var aud = new Audio('../images/starwars-audio.mp3');
-	aud.play();
+function playAudio() { 
+	// Play some music when you win.
+	var vid = document.getElementById("music"); 
+    vid.play(); 
+}
+
+function pauseAudio() { 
+	// Play some music when you win.
+	var vid = document.getElementById("music"); 
+    vid.pause(); 
 }
 
 // Restart game, initializing several values.
