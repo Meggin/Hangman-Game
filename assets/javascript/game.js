@@ -156,10 +156,17 @@ function buildWord(userInput) {
 	if (placeholder.split(',') == word.join(" ")) {
 		console.log("Woot");
 		wins++;
+		playAudio();
 		document.getElementById('win-count').innerHTML = wins;
 		restartGame();
 	}
 };
+
+// Play some music when you win.
+function playAudio() {
+	var aud = new Audio('../images/starwars-audio.mp3');
+	aud.play();
+}
 
 // Restart game, initializing several values.
 function restartGame(wordPlaceholder) {
