@@ -1,0 +1,124 @@
+/* So padding and border no longer increase width. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+	background: url(../images/star-wars-canvas.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+/* Some default document settings. */
+body {
+	/* background-color: black; */
+	/* background-image = url("../images/star-wars-canvas.jpg") */
+	color: #FFD700;
+	font-family: 'Poller One', cursive;
+	line-height: 175%;
+	text-align: center;
+	/* Set width to 1200 instead of 960 for better layout (in my humble opinion). */
+	width: 70%%;
+	margin: 0%;
+	vertical-align: middle;
+}
+
+header {
+	font-size: 40px;
+	font-family: 'Poller One', cursive;
+	margin: 3%;
+}
+
+.header-container {
+	height: 25%;
+	width: 100%;
+}
+
+.main-container {
+	height: 75%;
+	width: 55%;
+	border: 2px solid #FFD700;
+	margin: 2%;
+	text-align: center;
+	margin-left: 23%;
+	padding-top: 3%;
+	margin-bottom: 5%
+}
+
+/* 
+  These rules take effect when the browser's width
+  is 769px or more.
+*/
+@media screen and (max-width: 980px) {
+
+	/*
+	  No specific rules for large screens at this time.
+	*/
+}
+	
+
+/* 
+  These rules take effect when the browser's width
+  is 641px or more.
+*/
+@media screen and (max-width: 768px) {
+
+	.left-align {
+		width: inherit;
+	}
+
+
+	/* Two boxes per row. */
+	.box {
+		width: 50%;
+	}
+
+	/* Social links drop below main content. */
+	#social-links {
+		clear: both;
+		float: left;
+		overflow: auto 0;
+		width: 96%;
+		margin: 2%;
+		margin-right: 2%
+	}
+
+	/* Main content takes up full width. */
+	#main-bio,
+	#contact-form,
+	#project-portfolio {
+		clear: both;
+		float: left;
+		overflow: auto 0;
+		width: 96%;
+		margin: 2%;
+	}
+
+}
+
+/* 
+  These rules take effect when the browser's width
+  is 640px or less.
+*/
+@media screen and (max-width: 640px) {
+
+	body {
+		line-height: 120%;
+	}
+	header {
+		margin-top: 1%;
+		margin-bottom: 0;
+	}
+
+	.header-container {
+		font-size: 20px;
+		line-height: 200%;
+		margin: 0;
+	}
+
+	#star-wars-image {
+		width: 100%;
+	}
+}
